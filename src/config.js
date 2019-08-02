@@ -30,5 +30,13 @@ export default {
         upload: true,
         upload_by_chunks: true,
         preview_images: true,
-    }
+    },
+
+    type_by_extension:[
+        {name:'video',extensions:['mp4','webm']},
+        {name:'image',extensions:['jpg','jpeg','png']},
+        {name:'document',extensions:['doc','dox','pdf']},
+        {name:'code',extensions:['js','css','cs','cpp','c','php','py','jsx']},
+        {name:'data',extensions:['json','xml']}
+    ]
 };

@@ -7,13 +7,13 @@ import {
     rightClickOnFile, setSelectedFiles
 } from '../../Actions/Actions.js';
 import './File.css';
+import {GetIconByType} from '../../utils';
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import FolderIcon from '@material-ui/icons/Folder';
-import FileIcon from '@material-ui/icons/InsertDriveFile';
 import blue from '@material-ui/core/colors/blue';
 import config from '../../config.js';
 import { getHumanFileSize } from '../../Api/ApiHandler';
@@ -30,7 +30,7 @@ class File extends Component {
                 <ListItem>
                     <ListItemAvatar>
                         <Avatar style={avatarStyle}>
-                            { type === 'dir' ? <FolderIcon /> : <FileIcon />}
+                            { type === 'dir' ? <FolderIcon /> : <GetIconByType name={name}/>}
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText className="filename" primary={name} secondary={realSize} />
