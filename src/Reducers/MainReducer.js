@@ -1,5 +1,10 @@
 export const defaultState = {
     path: [],
+    
+    currentPage:0,
+    itemsPerPage:8,
+    allPages:1,
+
     pathSublist: [],
     fileList: [],
     fileListSublist: [],
@@ -140,6 +145,15 @@ const MainReducer = (state = defaultState, action) => {
             return Object.assign({}, state, {
                 fileUploadList: action.value
             });
+
+        case 'SET_CURRENT_PAGE':
+            return Object.assign({}, state, {
+            currentPage: action.value
+        });
+        case 'SET_ITEMS_PER_PAGE':
+            return Object.assign({}, state, {
+            itemsPerPage: action.value
+        });
 
         case 'SET_FILE_CONTENT':
             /**

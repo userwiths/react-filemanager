@@ -1,13 +1,27 @@
 import config from './../config.js';
 
 /**
+ * Fetch API to list files from directory, from given index to list number of files.
+ * @param {String} path
+ * @returns {Object}
+ */
+export function listRange(path,from=0,number=9) {
+    return fetch(
+        config.url_list + 
+        '?path=' + (encodeURIComponent(path) || '/')+
+        '&from='+from+
+        '&number='+number
+    );
+}
+
+/**
  * Fetch API to list files from directory
  * @param {String} path
  * @returns {Object}
  */
 export function list(path) {
     return fetch(config.url_list + '?path=' + (encodeURIComponent(path) || '/'));
-};
+}
 
 
 /**
@@ -26,7 +40,7 @@ export function createDirectory(path, directory) {
             path, directory
         })
     });
-};
+}
 
 
 /**
@@ -36,7 +50,7 @@ export function createDirectory(path, directory) {
  */
 export function getFileContent(path) {
     return fetch(config.url_get_content + '?path=' + (encodeURIComponent(path) || '/'));
-};
+}
 
 
 /**
@@ -56,7 +70,7 @@ export function remove(path, filenames, recursive = true) {
             path, filenames, recursive
         })
     });
-};
+}
 
 /**
  * Fetch API to move files
@@ -75,7 +89,7 @@ export function move(path, destination, filenames) {
             path, destination, filenames
         })
     });
-};
+}
 
 /**
  * Fetch API to move files
@@ -94,7 +108,7 @@ export function rename(path, destination) {
             path, destination
         })
     });
-};
+}
 
 /**
  * Fetch API to copy files
@@ -113,7 +127,7 @@ export function copy(path, destination, filenames) {
             path, destination, filenames
         })
     });
-};
+}
 
 /**
  * Fetch API to copy files
@@ -135,4 +149,4 @@ export function upload(path, fileList, formData = new FormData()) {
             path: path
         }
     });
-};
+}

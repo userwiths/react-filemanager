@@ -40,6 +40,7 @@ const handleFetch = (resolve, reject) => {
                         throw new Error();
                     }
                     resolve(json.data);
+                    console.log(json.data);
                 });
                 return;
             }
@@ -76,8 +77,8 @@ export const getFileList = (path) => {
     return new Promise((resolve, reject) => {
         return API.list(path)
             .then(handleFetch(resolve, reject).xthen)
-            .catch(handleFetch(resolve, reject).xcatch)
-    })
+            .catch(handleFetch(resolve, reject).xcatch);
+    });
 };
 
 /**

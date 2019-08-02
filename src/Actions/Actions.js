@@ -53,11 +53,11 @@ export const refreshFileList = () => (dispatch, getState) => {
  * @returns {Function}
  */
 export const refreshFileListSublist = () => (dispatch, getState) => {
-    const { pathSublist } = getState();
+    const { pathSublist,currentPage,itemsPerPage } = getState();
     dispatch(setLoadingSublist(true));
     dispatch(setSelectedFolderSublist(null));
 
-    APIHandler.getFileList(pathSublist.join('/')).then(r => {
+    APIHandler.getFileList(pathSublist.join('/'),currentPage*itemsPerPage,itemsPerPage).then(r => {
         dispatch(setLoadingSublist(false));
         dispatch(setFileListSublist(r));
     }).catch(r => {
@@ -505,5 +505,22 @@ export const setFileUploadList = (files) => {
    return {
         type: 'SET_FILE_UPLOAD_LIST',
         value: files
+    };
+};
+
+export const setCurrentPage=(pageNumber)=>(dispatch, getState)=>{
+    dispatch(setCurrentPageObject(pageNumber));
+};
+export const setCurrentPageObject = (pageNumber) => {
+    return {
+        type: 'SET_CURRENT_PAGE',
+        value: pageNumber
+    };
+};
+
+export const setItemsPerPage = (perPage) => {
+    return {
+        type: 'SET_ITEMS_PER_PAGE',
+        value: perPage
     };
 };
