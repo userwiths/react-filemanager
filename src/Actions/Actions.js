@@ -33,6 +33,7 @@ export const refreshFileList = () => (dispatch, getState) => {
     const { path } = getState();
     dispatch(setLoading(true));
     dispatch(setSelectedFiles([]));
+    dispatch(setCurrentFileIndex(0));
 
     APIHandler.getFileList(path.join('/')).then(r => {
         dispatch(setLoading(false));
@@ -70,14 +71,43 @@ export const refreshFileListSublist = () => (dispatch, getState) => {
     });
 };
 
+export const previousItem=()=>(dispatch,getState)=>{
+    const {fileList,current_file_index} = getState();
+    const fileType=GetMediaByType(fileList[current_file_index].name);
 
+    for(let i=current_file_index-1;i>0;i-=1){
+        if(GetMediaByType(fileList[i].name)===fileType){
+            dispatch(getFileContent(fileList[i].name));
+            break;
+        }
+    }
+};
+
+export const nextItem=()=>(dispatch,getState)=>{
+    const {fileList,current_file_index} = getState();
+    const fileType=GetMediaByType(fileList[current_file_index].name);
+
+    for(let i=current_file_index+1;i<fileList.length;i+=1){
+        if(GetMediaByType(fileList[i].name)===fileType){
+            dispatch(getFileContent(fileList[i].name));
+            break;
+        }
+    }
+};
 /**
  * Request API to get file content then dispatch defined events
  * @param {String} fileName
  * @returns {Function}
  */
 export const getFileContent = (fileName) => (dispatch, getState) => {
-    const { path } = getState();
+    const { path,fileList } = getState();
+
+    for(let i=0;i<fileList.length;i+=1){
+        if(fileName===fileList[i].name){
+            dispatch(setCurrentFileIndex(i));
+            break;
+        }
+    }
 
     dispatch(setLoading(true));
     dispatch(setFileContent(null));
@@ -538,6 +568,12 @@ export const setItemsPerPage = (perPage) => {
     return {
         type: 'SET_ITEMS_PER_PAGE',
         value: perPage
+    };
+};
+export const setCurrentFileIndex = (index) => {
+    return {
+        type: 'SET_CURRENT_FILE_INDEX',
+        value: index
     };
 };
 export const setUserSettings = (settings) => {

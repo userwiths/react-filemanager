@@ -1,5 +1,5 @@
 import React from 'react';
-import DialogContent from './Content/ContentImage';
+import DialogContentImage from './Content/ContentImage';
 import DialogEdit from './Edit/Edit.jsx';
 import DialogCreateFolder from './CreateFolder/CreateFolder.jsx';
 import DialogRename from './Rename/Rename.jsx';
@@ -11,7 +11,7 @@ import DialogContentVideo from './Content/ContentVideo';
 function Dialogs(props) {
     return (
         <div className="Dialogs">
-            <DialogContent />
+            <DialogContentImage />
             <DialogContentVideo />
             <DialogEdit />
             <DialogCreateFolder />

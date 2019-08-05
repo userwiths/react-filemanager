@@ -5,12 +5,9 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { connect } from "react-redux";
-import { setVisibleDialogContentImage } from "../../../Actions/Actions.js";
+import { setVisibleDialogContentImage,nextItem,previousItem } from "../../../Actions/Actions.js";
 import { ResizableBox } from "react-resizable";
 import FittedImage from "react-fitted-image";
-
-import {GetMediaByType} from '../../../utils';
-import ReactPlayer from "react-player";
 
 class FormDialog extends Component {
   state = {
@@ -56,12 +53,19 @@ class FormDialog extends Component {
                 onLoad={(...args) => console.log(...args)}
                 onError={(err) => console.log(err)}
                 src={this.props.blobUrl}
+                onClick={this.props.imageClick}
               />}
             </DialogContent>
 
-            <DialogActions>
+            <DialogActions style={{justifyContent:"center"}}>
+              <Button onClick={this.props.prevItem} color="primary" type="button">
+                Prev
+              </Button>
               <Button onClick={handleClose} color="primary" type="button">
                 Close
+              </Button>
+              <Button onClick={this.props.nextItem} color="primary" type="button">
+                Next
               </Button>
             </DialogActions>
           </Dialog>
@@ -85,6 +89,24 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     handleOpen: event => {
       dispatch(setVisibleDialogContentImage(true));
+    },
+    nextItem:event=>{
+      dispatch(nextItem());
+    },
+    prevItem:event=>{
+      dispatch(previousItem());
+    },
+    imageClick:event=>{
+      const {currentTarget,pageY,pageX}=event;
+      let offset=currentTarget.getBoundingClientRect().left;
+      
+      if(pageX-offset > currentTarget.width/2){
+        //console.log('RIGHT');
+        dispatch(nextItem());
+      }else{
+        //console.log('LEFT');
+        dispatch(previousItem());
+      }
     }
   };
 };

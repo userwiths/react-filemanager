@@ -7,6 +7,7 @@ export const defaultState = {
     allPages: 1,
     usePaging: true
   },
+  current_file_index: 0,
 
   pathSublist: [],
   fileList: [],
@@ -23,8 +24,8 @@ export const defaultState = {
   visibleDialogCreateFolder: false,
   visibleDialogUploadFile: false,
   visibleDialogContent: false,
-  visibleDialogContentImage:false,
-  visibleDialogContentVideo:false,
+  visibleDialogContentImage: false,
+  visibleDialogContentVideo: false,
   visibleDialogEdit: false,
   visibleDialogMove: false,
   visibleDialogCopy: false,
@@ -191,6 +192,10 @@ const MainReducer = (state = defaultState, action) => {
     case "SET_USER_SETTINGS":
       return Object.assign({}, state, {
         user_settings: action.value
+      });
+    case "SET_CURRENT_FILE_INDEX":
+      return Object.assign({}, state, {
+        current_file_index: action.value
       });
 
     case "SET_FILE_CONTENT":
