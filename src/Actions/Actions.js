@@ -1,5 +1,5 @@
 import * as APIHandler from '../Api/ApiHandler.js';
-
+import {GetMediaByType} from '../utils';
 /**
  * Request API to get file list for the selected path then refresh UI
  * @returns {Function}
@@ -81,7 +81,12 @@ export const getFileContent = (fileName) => (dispatch, getState) => {
 
     dispatch(setLoading(true));
     dispatch(setFileContent(null));
-    dispatch(setVisibleDialogContent(true));
+
+    if(GetMediaByType(fileName)==='image'){
+        dispatch(setVisibleDialogContentImage(true));
+    }else{
+        dispatch(setVisibleDialogContentVideo(true));
+    }
     APIHandler.getFileBody(path.join('/'), fileName).then(blob => {
         dispatch(setFileContent(blob));
         dispatch(setLoading(false));
@@ -480,6 +485,20 @@ export const setVisibleDialogContent = (visible) => {
     };
 };
 
+export const setVisibleDialogContentImage = (visible) => {
+    return {
+        type: 'SET_VISIBLE_DIALOG_CONTENT_IMAGE',
+        value: !!visible
+    };
+};
+
+export const setVisibleDialogContentVideo = (visible) => {
+    return {
+        type: 'SET_VISIBLE_DIALOG_CONTENT_VIDEO',
+        value: !!visible
+    };
+};
+
 export const setVisibleDialogEdit = (visible) => {
     return {
         type: 'SET_VISIBLE_DIALOG_EDIT',
@@ -508,10 +527,7 @@ export const setFileUploadList = (files) => {
     };
 };
 
-export const setCurrentPage=(pageNumber)=>(dispatch, getState)=>{
-    dispatch(setCurrentPageObject(pageNumber));
-};
-export const setCurrentPageObject = (pageNumber) => {
+export const setCurrentPage = (pageNumber) => {
     return {
         type: 'SET_CURRENT_PAGE',
         value: pageNumber
@@ -522,5 +538,11 @@ export const setItemsPerPage = (perPage) => {
     return {
         type: 'SET_ITEMS_PER_PAGE',
         value: perPage
+    };
+};
+export const setUserSettings = (settings) => {
+    return {
+        type: 'SET_USER_SETTINGS',
+        value: settings
     };
 };

@@ -30,7 +30,7 @@ class File extends Component {
                 <ListItem>
                     <ListItemAvatar>
                         <Avatar style={avatarStyle}>
-                            { type === 'dir' ? <FolderIcon /> : <GetIconByType name={name}/>}
+                            <GetIconByType name={name}/>
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText className="filename" primary={name} secondary={realSize} />
@@ -58,7 +58,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             if (ownProps.type === 'file') {
                 if (config.isEditableFilePattern.test(ownProps.name) || ownProps.editable) {
                     dispatch(getFileContentForEdit(ownProps.name));
-                } else if (config.isImageFilePattern.test(ownProps.name)) {
+                } else if (config.canOpenFilePattern.test(ownProps.name)) {
                     dispatch(getFileContent(ownProps.name));
                 }
                 return;

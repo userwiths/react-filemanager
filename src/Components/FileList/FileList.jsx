@@ -36,7 +36,7 @@ class FileList extends Component {
                         fileListComponent.length ? fileListComponent: <FileListEmptyMessage />
                     }
                 </div>
-            {PaginatorBar()}
+            {this.props.use_paging? PaginatorBar():null}
         </div>
     }
 }
@@ -46,8 +46,8 @@ const mapStateToProps = (state) => {
     );
     let pagedList=[];
     let allItems=filteredList.length;
-    let index=state.currentPage;
-    let perPage=state.itemsPerPage;
+    let index=state.user_settings.currentPage;
+    let perPage=state.user_settings.itemsPerPage;
     let allPages=Math.floor(allItems/perPage);
 
     pagedList=
@@ -55,6 +55,7 @@ const mapStateToProps = (state) => {
             filteredList.slice(index*perPage,allItems-index*perPage):
             filteredList.slice(index*perPage,index*perPage+perPage);
     return {
+        use_paging:state.user_settings.usePaging,
         allPages:allPages,
         displayFiles:pagedList,
         fileList: filteredList,

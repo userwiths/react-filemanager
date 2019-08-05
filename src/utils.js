@@ -26,3 +26,13 @@ export function GetIconByType(props){
         default:return (<FileIcon/>);
     }
 }
+
+export function GetMediaByType(data){
+    let name=data.split('.');
+    name=name.pop();
+    for(let i=0;i<config.type_by_extension.length;i+=1){
+        if(config.type_by_extension[i].extensions.includes(name)){
+            return config.type_by_extension[i].name;
+        }
+    }
+}
