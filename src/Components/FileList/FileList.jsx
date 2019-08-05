@@ -13,30 +13,33 @@ class FileList extends Component {
         const fileListComponent = this.props.displayFiles.map((file, key) => {
             return (<File type={file.type} name={file.name} editable={file.editable} size={file.size} key={key} />);
         });
-
-        return <div className="FileList">
-            { this.props.loading ? 
-                <Loader /> : 
-                fileListComponent.length ? fileListComponent : <FileListEmptyMessage />
-            }
-            <ReactPaginate
-                previousLabel={'previous'}
-                nextLabel={'next'}
-                breakLabel={'...'}
-                breakClassName={'break-me'}
-                pageCount={4}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={2}
-                onPageChange={this.props.handleClick}
-                containerClassName={'pagination'}
-                subContainerClassName={'pages pagination'}
-                activeClassName={'active'}
-            />
+        const PaginatorBar=()=>{
+            return (
+                <ReactPaginate
+                    previousLabel={'prev'}
+                    nextLabel={'next'}
+                    breakLabel={'...'}
+                    breakClassName={'break-me'}
+                    pageCount={this.props.allPages}
+                    marginPagesDisplayed={2}
+                    onPageChange={this.props.handleClick}
+                    containerClassName={'pagination'}
+                    subContainerClassName={'pages pagination'}
+                    activeClassName={'active'}
+                />
+            );
+        };
+        return <div className='FileListContainer'>
+                <div className="FileList">
+                    { this.props.loading ? 
+                        <Loader /> : 
+                        fileListComponent.length ? fileListComponent: <FileListEmptyMessage />
+                    }
+                </div>
+            {PaginatorBar()}
         </div>
     }
 }
-
-
 const mapStateToProps = (state) => {
     const filteredList = state.fileList.filter(
         file => state.fileListFilter ? file.name.toLocaleLowerCase().match(state.fileListFilter.toLocaleLowerCase()) : true
@@ -45,12 +48,14 @@ const mapStateToProps = (state) => {
     let allItems=filteredList.length;
     let index=state.currentPage;
     let perPage=state.itemsPerPage;
+    let allPages=Math.floor(allItems/perPage);
 
     pagedList=
         allItems<(index*perPage+perPage)?
             filteredList.slice(index*perPage,allItems-index*perPage):
             filteredList.slice(index*perPage,index*perPage+perPage);
     return {
+        allPages:allPages,
         displayFiles:pagedList,
         fileList: filteredList,
         loading: state.loading

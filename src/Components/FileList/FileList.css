@@ -8,6 +8,19 @@
     white-space: nowrap;
 }
 
+.pagination ul {
+    display: inline-block;
+    text-align: center;
+    position: fixed;
+}
+
+.pagination li {
+    display: inline-block;
+    text-align: center;
+    width:3%;
+    border: solid black 1px;
+}
+
 @media (min-width : 600px) {
     .FileList .File {
         float: left;
